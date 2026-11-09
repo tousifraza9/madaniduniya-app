@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدنی دنیا اسمارٹ ایپ - نیو لے آؤٹ</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        @font-face {
+            font-family: 'Jameel Noori';
+            src: url('https://dev-madaniduniya.pantheonsite.io/wp-content/uploads/2024/05/Jameel-Noori-Nastaleeq-Regular.ttf') format('truetype');
+            font-weight: normal; font-style: normal;
+            unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+        }
+
+        :root {
+            --bg-color: #f7f9fc;
+            --surface-color: #ffffff;
+            --text-main: #1d1d1f;
+            --text-muted: #86868b;
+            --primary: #059669; 
+            --primary-light: #d1fae5;
+            --border-light: rgba(0,0,0,0.05);
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --shadow-sm: 0 4px 12px rgba(0,0,0,0.03);
+            --shadow-lg: 0 12px 30px rgba(0,0,0,0.08);
+            --radius-xl: 24px; --radius-lg: 18px; --radius-md: 14px;
+        }
+
+        body.dark-mode {
+            --bg-color: #000000; --surface-color: #1c1c1e;
+            --text-main: #f5f5f7; --text-muted: #a1a1a6;
+            --primary: #34d399; --primary-light: rgba(52, 211, 153, 0.15);
+            --border-light: rgba(255,255,255,0.08);
+            --glass-bg: rgba(28, 28, 30, 0.85);
+            --shadow-sm: 0 4px 12px rgba(0,0,0,0.3);
+            --shadow-lg: 0 12px 30px rgba(0,0,0,0.5);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', 'Jameel Noori', sans-serif; -webkit-tap-highlight-color: transparent; line-height: 1.7; }
+        body { background-color: var(--bg-color); color: var(--text-main); display: flex; justify-content: center; min-height: 100vh; padding-bottom: 100px; transition: background 0.3s, color 0.3s; }
+        a { text-decoration: none; color: inherit; }
+
+        .app-container { width: 100%; max-width: 480px; background-color: var(--bg-color); min-height: 100vh; position: relative; overflow-x: hidden; }
+
+        /* Header */
+        .header { background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 0; right: 0; margin: 0 auto; max-width: 480px; width: 100%; z-index: 2000; border-bottom: 1px solid var(--border-light); }
+        .header-logo { max-height: 38px; object-fit: contain; }
+        body.dark-mode .header-logo { filter: brightness(0) invert(1); } 
+        .icon-btn { font-size: 1.4rem; background: var(--surface-color); width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-main); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); transition: 0.2s; position: relative; }
+        .icon-btn:active { transform: scale(0.9); }
+        
+        .top-section { padding: 85px 20px 10px; }
+        .greeting-title { font-size: 1.6rem; font-weight: bold; margin: 0; line-height: 1.2; }
+        .greeting-sub { font-size: 1rem; color: var(--text-muted); margin-top: 4px; }
+
+        .news-ticker { background: var(--surface-color); color: var(--primary); padding: 12px 15px; margin: 15px 20px 0; border-radius: var(--radius-md); font-size: 0.95rem; overflow: hidden; white-space: nowrap; display: none; font-weight: bold; box-shadow: var(--shadow-sm); border-right: 4px solid var(--primary); }
+        .ticker-text { display: inline-block; animation: ticker 20s linear infinite; padding-left: 100%; }
+        @keyframes ticker { 100% { transform: translateX(100%); } }
+
+        .section-header { padding: 0 20px; margin: 25px 0 15px; display: flex; justify-content: space-between; align-items: center; }
+        .section-title { font-size: 1.25rem; font-weight: bold; color: var(--text-main); }
+        .h-scroll { display: flex; overflow-x: auto; padding: 5px 20px 15px; gap: 15px; scrollbar-width: none; scroll-snap-type: x mandatory; }
+        .h-scroll::-webkit-scrollbar { display: none; }
+        
+        .category-chip { background: var(--surface-color); min-width: 110px; padding: 15px 10px; border-radius: var(--radius-lg); display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: var(--shadow-sm); scroll-snap-align: start; text-decoration: none; transition: 0.2s; border: 1px solid var(--border-light); }
+        .category-chip:active { transform: scale(0.95); }
+        .chip-icon { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 8px; }
+        .chip-text { font-size: 0.9rem; font-weight: bold; color: var(--text-main); text-align: center; }
+
+        .author-story { min-width: 75px; max-width: 75px; display: flex; flex-direction: column; align-items: center; scroll-snap-align: start; cursor: pointer; }
+        .author-ring { width: 68px; height: 68px; border-radius: 50%; padding: 3px; background: linear-gradient(45deg, #059669, #3b82f6); margin-bottom: 6px; }
+        .author-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid var(--bg-color); }
+        .author-name { font-size: 0.8rem; font-weight: 600; text-align: center; color: var(--text-muted); line-height: 1.3; }
+
+        .slider-container { margin: 20px; width: calc(100% - 40px); height: 170px; border-radius: var(--radius-xl); overflow: hidden; position: relative; box-shadow: var(--shadow-lg); }
+        .slides { display: flex; width: 300%; height: 100%; animation: slide 15s infinite; transition: 0.5s; }
+        .slide { width: 33.33%; height: 100%; position: relative; }
+        .slide img { width: 100%; height: 100%; object-fit: cover; }
+        .slide-caption { position: absolute; bottom: 0; width: 100%; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); color: white; padding: 25px 15px 15px; font-size: 1rem; font-weight: bold; }
+
+        .hero-widget { margin: 20px; padding: 25px; border-radius: var(--radius-xl); background: linear-gradient(135deg, var(--primary), #047857); color: white; box-shadow: 0 10px 25px rgba(5, 150, 105, 0.3); position: relative; overflow: hidden; display: none; }
+        .hero-widget::after { content: "\f684"; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; left: -20px; top: -10px; font-size: 8rem; opacity: 0.1; }
+        .hw-header { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-size: 1.1rem; font-weight: bold; background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; display: inline-flex;}
+        .hw-text { font-size: 1.2rem; line-height: 1.8; font-weight: 500; position: relative; z-index: 2;}
+        .hw-ref { font-size: 0.9rem; margin-top: 15px; opacity: 0.8; }
+
+        .posts-list { padding: 0 20px; }
+        .post-card { background: var(--surface-color); border-radius: var(--radius-xl); margin-bottom: 25px; box-shadow: var(--shadow-sm); overflow: hidden; border: 1px solid var(--border-light); display: flex; flex-direction: column; }
+        .post-card img { width: 100%; height: 190px; object-fit: cover; }
+        .post-content { padding: 18px; }
+        .post-title { font-size: 1.2rem; font-weight: bold; color: var(--text-main); margin-bottom: 12px; line-height: 1.5; }
+        .post-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px dashed var(--border-light); }
+        .btn-read { background: var(--primary-light); color: var(--primary); padding: 8px 18px; border-radius: 20px; font-size: 0.9rem; font-weight: bold; }
+        .action-tray { display: flex; gap: 15px; }
+        .action-tray i { width: 38px; height: 38px; background: var(--bg-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 1.1rem; cursor: pointer; transition: 0.2s; }
+        .action-tray i.saved { color: #e74c3c; background: rgba(231, 76, 60, 0.1); }
+
+        .load-more-container { text-align: center; margin: 10px 0 40px; }
+        .btn-load { background: var(--surface-color); color: var(--text-main); border: 1px solid var(--border-light); padding: 12px 35px; border-radius: 30px; cursor: pointer; font-family: 'Jameel Noori'; font-size: 1.1rem; font-weight: bold; box-shadow: var(--shadow-sm); }
+
+        /* Store */
+        .store-header { padding: 25px 20px 10px; background: var(--surface-color); box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 15px; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;}
+        .back-circle { width: 40px; height: 40px; background: var(--bg-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-main); }
+        .app-item-modern { display: flex; align-items: center; padding: 15px; background: var(--surface-color); margin: 15px 20px; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); cursor: pointer; }
+        .app-item-icon { width: 65px; height: 65px; border-radius: 16px; object-fit: cover; margin-left: 15px; }
+        .app-item-info { flex: 1; }
+        .app-item-title { font-size: 1.15rem; font-weight: bold; color: var(--text-main); margin: 0; }
+        .app-item-dev { font-size: 0.85rem; color: var(--text-muted); margin-top: 2px; }
+        .app-item-btn { background: var(--primary-light); color: var(--primary); padding: 6px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; }
+        
+        .detail-hero { text-align: center; padding: 30px 20px; }
+        .detail-icon { width: 100px; height: 100px; border-radius: 25px; box-shadow: var(--shadow-lg); margin-bottom: 15px; }
+        .detail-title { font-size: 1.5rem; font-weight: bold; color: var(--text-main); }
+        .detail-dev { color: var(--primary); font-size: 1rem; font-weight: bold; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 0 20px 25px; }
+        .stat-box { background: var(--surface-color); padding: 15px 10px; border-radius: var(--radius-md); text-align: center; box-shadow: var(--shadow-sm); border: 1px solid var(--border-light);}
+        .stat-val { display: block; font-size: 1.2rem; font-weight: bold; color: var(--text-main); }
+        .stat-lbl { font-size: 0.8rem; color: var(--text-muted); }
+        .btn-download-large { display: block; margin: 0 20px 30px; background: var(--primary); color: white; text-align: center; padding: 16px; border-radius: 30px; font-weight: bold; font-size: 1.2rem; box-shadow: 0 8px 20px rgba(5, 150, 105, 0.4); }
+
+        /* Floating Bottom Nav */
+        .bottom-nav-floating { position: fixed; bottom: 20px; left: 20px; right: 20px; max-width: 440px; margin: 0 auto; background: var(--glass-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); display: flex; justify-content: space-around; align-items: center; padding: 10px 5px; border-radius: 35px; box-shadow: var(--shadow-lg); z-index: 1000; border: 1px solid rgba(255,255,255,0.2); }
+        .nav-item { color: var(--text-muted); text-align: center; font-size: 0.75rem; flex: 1; border: none; background: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: 0.3s; }
+        .nav-item i { font-size: 1.4rem; margin-bottom: 4px; transition: 0.3s; }
+        .nav-item.active { color: var(--primary); }
+        .nav-item.active i { transform: translateY(-3px) scale(1.1); }
+
+        .view-section { display: none; animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .view-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Sidebar & Modals */
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 4000; display: none; opacity: 0; transition: 0.3s; backdrop-filter: blur(2px); }
+        .sidebar-overlay.active { display: block; opacity: 1; }
+        .sidebar { position: fixed; top: 0; right: -320px; width: 280px; height: 100%; background: var(--surface-color); z-index: 4001; transition: right 0.3s; box-shadow: -10px 0 30px rgba(0,0,0,0.1); border-top-left-radius: 30px; border-bottom-left-radius: 30px; overflow: hidden; display:flex; flex-direction: column;}
+        .sidebar.active { right: 0; }
+        .sidebar-header { padding: 40px 20px 20px; background: var(--primary-light); text-align: center; }
+        .sidebar-menu { list-style: none; padding: 15px 0; overflow-y: auto; flex:1;}
+        .sidebar-menu li a { display: flex; align-items: center; padding: 15px 25px; color: var(--text-main); font-size: 1.05rem; font-weight: bold; }
+        .sidebar-menu li a i { width: 35px; color: var(--primary); font-size: 1.2rem; }
+
+        .popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 5000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .popup-card { background: var(--surface-color); width: 85%; max-width: 320px; padding: 30px 25px; border-radius: var(--radius-xl); text-align: center; position: relative; animation: popIn 0.4s; }
+        .popup-btn { background: var(--primary); color: white; padding: 14px; border-radius: 30px; display: block; width: 100%; font-weight: bold; margin-top: 20px; }
+        @keyframes popIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+        /* --- 🌟 NEW: Notification Panel Styles 🌟 --- */
+        .notification-panel { position: fixed; top: 0; left: -320px; width: 280px; height: 100%; background: var(--surface-color); z-index: 4001; transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 10px 0 30px rgba(0,0,0,0.1); border-top-right-radius: 30px; border-bottom-right-radius: 30px; display:flex; flex-direction: column; overflow: hidden;}
+        .notification-panel.active { left: 0; }
+        .notification-header { padding: 35px 20px 20px; background: var(--primary-light); color: var(--primary); display: flex; justify-content: space-between; align-items: center; }
+        .notification-body { padding: 15px 20px; overflow-y: auto; flex:1; }
+        .notif-item { background: var(--bg-color); padding: 15px; border-radius: var(--radius-md); margin-bottom: 12px; border: 1px solid var(--border-light); }
+        .notif-title { font-size: 1rem; font-weight: bold; color: var(--text-main); margin-bottom: 5px; line-height: 1.4; }
+        .notif-msg { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px; line-height: 1.5; }
+        .notif-btn { display: inline-flex; align-items: center; gap: 5px; background: var(--primary); color: white !important; padding: 6px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; }
+        .notif-badge { position: absolute; top: 0; right: 0; background: #e74c3c; color: white; width: 14px; height: 14px; border-radius: 50%; box-shadow: 0 0 0 2px var(--surface-color); }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <div class="header">
+            <button class="icon-btn" onclick="toggleSidebar()"><i class="fas fa-bars-staggered"></i></button>
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEitCLc_RkBdn0RWkml4bfqFrAZe7c3jdYRfjdJuDbFS5qqTw0V_ZKGxO_9mQTNnclpP_ngT9cN1XAXKnYttEquf0QKTnanvK7ggCa3QNMgh7WvhU25lcpeSLIaj7kCzsxmVPfZ5kNeX2KkfcVJlgxSH5CNbX9aZBZ_CzawHxKBON-i4KViMbmPs4C7bM26Y/s1024/288946.webp" class="header-logo" alt="Madani Duniya">
+            <!-- 🌟 گھنٹی کا نیا بٹن -->
+            <button class="icon-btn" onclick="toggleNotifications()">
+                <i class="far fa-bell"></i>
+                <span class="notif-badge" id="notif-count" style="display:none;"></span>
+            </button>
+        </div>
+
+        <!-- دائیں طرف والا مینیو (Sidebar) -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+        <div class="sidebar" id="sidebarMenu">
+            <div class="sidebar-header">
+                <img src="https://blogger.googleusercontent.com/img/a/AVvXsEinyEpCh1wegejSecwIoxCwdCKFK00j17CXYEgIgwwJ-B4XkJkbNxXWxnN5sTDarv4DiCMH4Stfb7nGcpl0zFtfc760aUOxzTSEwDHe3IS6GYjdR7nRnUp0mjlmdAN-pFzfZpHrqpGREdrZ_lCE4xR4sFRiqyP7P31PLAkjZjNjrEDn1cEGISWnjK_0cHYT" style="width: 70px; border-radius: 50%;">
+                <h3 style="margin-top: 10px; color: var(--primary);">مدنی دنیا</h3>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#" onclick="switchTab('home'); toggleSidebar();"><i class="fas fa-home"></i> ہوم</a></li>
+                <li><a href="https://www.madaniduniya.com/p/madaniduniya-all-posts.html"><i class="fas fa-book-open"></i> مضامین</a></li>
+                <li><a href="#" onclick="switchTab('store'); toggleSidebar();"><i class="fas fa-layer-group"></i> ایپس اسٹور</a></li>
+                <li><a href="#" onclick="switchTab('saved'); toggleSidebar();"><i class="fas fa-bookmark"></i> محفوظ شدہ</a></li>
+                <li><a href="#" onclick="toggleDarkMode(); toggleSidebar();"><i class="fas fa-moon"></i> ڈارک موڈ</a></li>
+                <li><a href="https://www.madaniduniya.com/p/madani-duniya-app-download.html" onclick="shareApp()"><i class="fas fa-share-alt"></i> شیئر کریں</a></li>
+            </ul>
+        </div>
+
+        <!-- 🌟 بائیں طرف والا نوٹیفکیشن پینل -->
+        <div class="sidebar-overlay" id="notificationOverlay" onclick="toggleNotifications()"></div>
+        <div class="notification-panel" id="notificationPanel">
+            <div class="notification-header">
+                <h3 style="margin:0; font-size: 1.2rem;">نوٹیفکیشنز <i class="far fa-bell"></i></h3>
+                <i class="fas fa-times" style="cursor:pointer; font-size: 1.2rem; color: var(--text-muted);" onclick="toggleNotifications()"></i>
+            </div>
+            <div class="notification-body">
+                <!-- کسٹم نوٹیفکیشنز یہاں آئیں گے -->
+                <div id="custom-notifications-container"></div>
+                
+                <h4 style="margin: 15px 0 10px; font-size: 1rem; color: var(--text-muted);">تازہ ترین مضامین</h4>
+                <div id="recent-notifications-container">
+                    <div style="text-align:center; padding:20px; color:var(--primary);"><i class="fas fa-spinner fa-spin"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="home-view" class="view-section active">
+            <div class="top-section">
+                <h2 class="greeting-title">خوش آمدید، قاری! 👋</h2>
+                <p class="greeting-sub">علم و حکمت کے سفر میں آپ کا استقبال ہے۔</p>
+            </div>
+            <div class="news-ticker" id="news-ticker-box"><div class="ticker-text" id="ticker-content">تازہ ترین اپڈیٹس کے لیے انٹرنیٹ آن رکھیں۔</div></div>
+            <div class="slider-container"><div class="slides" id="dynamic-slides"><div class="slide"><img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500"><div class="slide-caption">لوڈ ہو رہا ہے...</div></div></div></div>
+            
+            <div class="section-header"><div class="section-title">اہم زمرہ جات</div></div>
+            <div class="h-scroll" id="dynamic-dashboard"><div style="color:var(--text-muted); padding: 10px;">لوڈ ہو رہا ہے...</div></div>
+
+            <div id="daily-card-box" class="hero-widget">
+                <div class="hw-header"><i class="fas fa-book-open-reader"></i> <span id="dc-title">آج کی حدیث</span></div>
+                <div class="hw-text" id="dc-text">لوڈ ہو رہا ہے...</div>
+                <div class="hw-ref" id="dc-ref">لوڈ ہو رہا ہے...</div>
+            </div>
+
+            <div id="authors-container-wrapper" style="display:none;">
+                <div class="section-header"><div class="section-title">ہمارے قلم کار</div></div>
+                <div class="h-scroll" id="dynamic-authors"></div>
+            </div>
+
+            <div class="section-header"><div class="section-title">تازہ ترین مضامین</div></div>
+            <div id="recent-posts-container" class="posts-list"></div>
+            <div class="load-more-container"><button id="loadMoreBtn" class="btn-load" onclick="fetchNextBatch()" style="display:none;">مزید لوڈ کریں <i class="fas fa-angle-down"></i></button></div>
+        </div>
+
+        <!-- Store & Saved Views -->
+        <div id="store-list-view" class="view-section">
+            <div class="store-header"><div onclick="switchTab('home')" class="back-circle"><i class="fas fa-arrow-right"></i></div><h3 style="margin:0; font-size: 1.3rem;">ایپس اسٹور</h3></div>
+            <div id="apps-container" style="padding-top: 10px;"><div style="text-align:center; padding:50px; color:var(--text-muted);"><i class="fas fa-spinner fa-spin fa-2x"></i><br><br>ایپس لوڈ ہو رہی ہیں...</div></div>
+        </div>
+
+        <div id="store-details-view" class="view-section">
+            <div class="store-header"><div onclick="switchTab('store')" class="back-circle"><i class="fas fa-arrow-right"></i></div><h3 style="margin:0;">تفصیل</h3></div>
+            <div class="detail-hero"><img id="dt-icon" src="" class="detail-icon" alt="App Icon"><h1 id="dt-title" class="detail-title">App Name</h1><div id="dt-dev" class="detail-dev">Developer</div></div>
+            <div class="stats-grid">
+                <div class="stat-box"><span class="stat-val" id="dt-rating">4.5 <i class="fas fa-star" style="font-size:12px; color:#FFC107;"></i></span><span class="stat-lbl">ریٹنگز</span></div>
+                <div class="stat-box"><span class="stat-val" id="dt-size">12MB</span><span class="stat-lbl">سائز</span></div>
+                <div class="stat-box"><span class="stat-val" id="dt-downloads">1K+</span><span class="stat-lbl">ڈاؤنلوڈز</span></div>
+            </div>
+            <a id="dt-btn" href="#" target="_blank" class="btn-download-large">ابھی ڈاؤنلوڈ کریں</a>
+            <div style="padding: 0 20px;"><h3 style="margin-bottom: 10px;">اسکرین شاٹس</h3><div id="dt-screens" class="h-scroll" style="padding: 5px 0 15px; margin:0;"></div></div>
+        </div>
+
+        <div id="saved-view" class="view-section">
+            <div class="top-section"><h2 class="greeting-title">محفوظ شدہ 🔖</h2></div>
+            <div id="saved-list-container" class="posts-list" style="margin-top: 20px;"></div>
+            <div id="no-saved-msg" style="text-align:center; padding:60px 20px; color:var(--text-muted); display:none;"><i class="far fa-bookmark" style="font-size: 4rem; opacity: 0.5; margin-bottom: 20px;"></i><p style="font-size: 1.1rem; font-weight: bold;">کوئی مضمون محفوظ نہیں</p></div>
+        </div>
+
+        <!-- Floating Bottom Nav -->
+        <div class="bottom-nav-floating">
+            <button onclick="switchTab('home')" class="nav-item active" id="btn-home"><i class="fas fa-house"></i> <span>ہوم</span></button>
+            <button onclick="window.location.href='https://www.madaniduniya.com/search'" class="nav-item"><i class="fas fa-magnifying-glass"></i> <span>تلاش</span></button>
+            <button onclick="switchTab('store')" class="nav-item" id="btn-store"><i class="fas fa-layer-group"></i> <span>ایپس</span></button>
+            <button onclick="switchTab('saved')" class="nav-item" id="btn-saved"><i class="fas fa-bookmark"></i> <span>محفوظ</span></button>
+        </div>
+
+        <div id="announcement-modal" class="popup-overlay">
+            <div class="popup-card">
+                <i class="fas fa-times" style="position: absolute; right: 20px; top: 20px; color: var(--text-muted); cursor: pointer; font-size: 1.2rem;" onclick="closePopup()"></i>
+                <i class="fas fa-bullhorn" style="font-size: 3rem; color: var(--primary); margin-bottom: 15px;"></i>
+                <h3 id="pop-title" style="margin-bottom: 10px; font-size: 1.3rem;">اعلان</h3>
+                <p id="pop-msg" style="color: var(--text-muted); margin-bottom: 15px;">...</p>
+                <a href="#" id="pop-btn" class="popup-btn" target="_blank">دیکھیں</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const myWebsiteURL = "https://www.madaniduniya.com"; 
+        const CONFIG_URL = "https://raw.githubusercontent.com/Tousifraza9/madaniduniya-app-store/main/config.json";
+        const APPS_URL = "https://raw.githubusercontent.com/Tousifraza9/madaniduniya-app-store/main/apps.json";
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebarMenu');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('active'); overlay.classList.toggle('active');
+        }
+
+        // 🌟 Notification Functions 🌟
+        function toggleNotifications() {
+            const panel = document.getElementById('notificationPanel');
+            const overlay = document.getElementById('notificationOverlay');
+            panel.classList.toggle('active'); overlay.classList.toggle('active');
+            document.getElementById('notif-count').style.display = 'none'; // بیج ہٹا دیں
+        }
+
+        function fetchNotificationPosts() {
+            const script = document.createElement('script');
+            script.src = `${myWebsiteURL}/feeds/posts/default?alt=json-in-script&callback=renderNotificationPosts&max-results=4`;
+            document.body.appendChild(script);
+        }
+
+        function renderNotificationPosts(json) {
+            const container = document.getElementById('recent-notifications-container');
+            container.innerHTML = "";
+            const entries = json.feed.entry;
+            if(entries) {
+                entries.forEach(entry => {
+                    const title = entry.title.$t;
+                    const link = entry.link.find(l => l.rel === 'alternate').href;
+                    container.innerHTML += `
+                        <div class="notif-item">
+                            <div class="notif-title">${title}</div>
+                            <a href="${link}" class="notif-btn">پڑھیں <i class="fas fa-arrow-left" style="font-size:10px;"></i></a>
+                        </div>`;
+                });
+            }
+        }
+
+        function closePopup() { document.getElementById('announcement-modal').style.display = 'none'; }
+
+        async function loadConfig() {
+            try {
+                const response = await fetch(CONFIG_URL);
+                if(!response.ok) return;
+                const data = await response.json();
+
+                // 🌟 کسٹم نوٹیفکیشن سسٹم 🌟
+                if(data.customNotifications && data.customNotifications.length > 0) {
+                    const notifContainer = document.getElementById('custom-notifications-container');
+                    notifContainer.innerHTML = "";
+                    document.getElementById('notif-count').style.display = 'block'; // بیج دکھائیں
+                    
+                    data.customNotifications.forEach(notif => {
+                        notifContainer.innerHTML += `
+                            <div class="notif-item" style="border-right: 4px solid var(--primary); background: var(--primary-light);">
+                                <div class="notif-title">${notif.title}</div>
+                                <div class="notif-msg">${notif.message}</div>
+                                ${notif.link ? `<a href="${notif.link}" class="notif-btn">${notif.btnText || 'دیکھیں'}</a>` : ''}
+                            </div>
+                        `;
+                    });
+                }
+
+                if(data.authors && data.authors.length > 0) {
+                    document.getElementById('authors-container-wrapper').style.display = 'block';
+                    const authContainer = document.getElementById('dynamic-authors');
+                    authContainer.innerHTML = "";
+                    data.authors.forEach(author => {
+                        authContainer.innerHTML += `<a href="${author.link}" class="author-story"><div class="author-ring"><img src="${author.image}" class="author-img" alt="${author.name}"></div><div class="author-name">${author.name}</div></a>`;
+                    });
+                }
+
+                if(data.dashboardButtons) {
+                    const dashboard = document.getElementById('dynamic-dashboard');
+                    dashboard.innerHTML = "";
+                    data.dashboardButtons.forEach(btn => {
+                        let actionAttr = btn.type === "function" ? `onclick="${btn.link}"` : `href="${btn.link}"`; 
+                        let tagType = btn.type === "link" ? "a" : "div";
+                        dashboard.innerHTML += `<${tagType} ${actionAttr} class="category-chip"><div class="chip-icon" style="color:${btn.color}; background-color:${btn.color}1A;"><i class="${btn.icon}"></i></div><div class="chip-text">${btn.title}</div></${tagType}>`;
+                    });
+                }
+
+                if(data.ticker && data.ticker.text) { document.getElementById('news-ticker-box').style.display = 'block'; document.getElementById('ticker-content').innerText = data.ticker.text; }
+                if(data.slider && data.slider.length > 0) {
+                    const sliderContainer = document.getElementById('dynamic-slides'); sliderContainer.innerHTML = "";
+                    data.slider.forEach(slide => { sliderContainer.innerHTML += `<div class="slide"><img src="${slide.image}"><div class="slide-caption">${slide.caption}</div></div>`; });
+                }
+                if(data.dailyMessage && data.dailyMessage.show) {
+                    document.getElementById('daily-card-box').style.display = 'block'; document.getElementById('dc-title').innerText = data.dailyMessage.title;
+                    document.getElementById('dc-text').innerText = data.dailyMessage.text; document.getElementById('dc-ref').innerText = data.dailyMessage.reference;
+                }
+                if(data.popup && data.popup.show) {
+                    if(!sessionStorage.getItem('popupShown')) {
+                        document.getElementById('pop-title').innerText = data.popup.title; document.getElementById('pop-msg').innerText = data.popup.message;
+                        document.getElementById('pop-btn').innerText = data.popup.btnText; document.getElementById('pop-btn').href = data.popup.link;
+                        setTimeout(() => { document.getElementById('announcement-modal').style.display = 'flex'; }, 2000); sessionStorage.setItem('popupShown', 'true');
+                    }
+                }
+            } catch (e) { console.log("Config Error:", e); }
+        }
+
+        // App Store
+        let allAppsData = [];
+        async function fetchApps() {
+            const container = document.getElementById('apps-container');
+            try {
+                const response = await fetch(APPS_URL); const data = await response.json(); allAppsData = data; container.innerHTML = "";
+                if(data.length === 0) { container.innerHTML = "<div style='text-align:center; padding:30px;'>کوئی ایپ موجود نہیں</div>"; return; }
+                data.forEach(app => {
+                    container.innerHTML += `<div class="app-item-modern" onclick="openAppDetails(${app.id})"><img src="${app.icon}" class="app-item-icon"><div class="app-item-info"><h3 class="app-item-title">${app.title}</h3><p class="app-item-dev">${app.developer || 'Madani Devs'}</p></div><div class="app-item-btn">انسٹال کریں</div></div>`;
+                });
+            } catch (e) { container.innerHTML = "<div style='text-align:center; padding:30px; color:red;'>انٹرنیٹ کنکشن چیک کریں</div>"; }
+        }
+
+        function openAppDetails(id) {
+            const app = allAppsData.find(a => a.id == id); if(!app) return;
+            document.getElementById('dt-icon').src = app.icon || "https://via.placeholder.com/100"; document.getElementById('dt-title').innerText = app.title || "No Name";
+            document.getElementById('dt-dev').innerText = app.developer || "Madani Devs"; document.getElementById('dt-rating').innerHTML = `${app.rating || '4.5'} <i class="fas fa-star" style="font-size:12px; color:#FFC107;"></i>`;
+            document.getElementById('dt-size').innerText = app.size || "10MB"; document.getElementById('dt-downloads').innerText = app.downloads || "1K+"; document.getElementById('dt-btn').href = app.link || "#";
+            const scContainer = document.getElementById('dt-screens'); scContainer.innerHTML = "";
+            if (app.screens && app.screens.length > 0) { app.screens.forEach(imgUrl => { scContainer.innerHTML += `<img src="${imgUrl}" style="height:200px; border-radius:12px; scroll-snap-align: start; border: 1px solid var(--border-light);" alt="Screen">`; }); }
+            switchTab('store-details'); 
+        }
+
+        // Posts Fetching
+        let currentIndex = 1;
+        function fetchNextBatch() {
+            document.getElementById('loadMoreBtn').innerHTML = "لوڈ ہو رہا ہے... <i class='fas fa-spinner fa-spin'></i>";
+            const script = document.createElement('script');
+            script.src = `${myWebsiteURL}/feeds/posts/default?alt=json-in-script&callback=appendPosts&max-results=5&start-index=${currentIndex}`;
+            document.body.appendChild(script);
+        }
+        
+        function appendPosts(json) {
+            const container = document.getElementById('recent-posts-container');
+            const entries = json.feed.entry;
+            if(entries) {
+                entries.forEach(entry => {
+                    const title = entry.title.$t; const link = entry.link.find(l => l.rel === 'alternate').href;
+                    let img = "https://via.placeholder.com/500x300"; if (entry.media$thumbnail) img = entry.media$thumbnail.url.replace('/s72-c/', '/w500-h300-c/');
+                    const postData = JSON.stringify({title: title, url: link, img: img}).replace(/'/g, "'");
+                    container.innerHTML += `<div class="post-card"><a href="${link}"><img src="${img}"></a><div class="post-content"><a href="${link}"><div class="post-title">${title}</div></a><div class="post-footer"><a href="${link}" class="btn-read">پڑھیں <i class="fas fa-arrow-left" style="margin-right:5px; font-size:12px;"></i></a><div class="action-tray"><i class="far fa-share-from-square" onclick="sharePost('${link}', '${title}')"></i><i class="far fa-heart" onclick='toggleSave(this, ${postData})'></i></div></div></div></div>`;
+                });
+                currentIndex += 5; document.getElementById('loadMoreBtn').innerHTML = "مزید لوڈ کریں <i class='fas fa-angle-down'></i>"; document.getElementById('loadMoreBtn').style.display = 'inline-block';
+            } else { document.getElementById('loadMoreBtn').style.display = 'none'; }
+        }
+
+        // Save System
+        function getSavedPosts() { return JSON.parse(localStorage.getItem('savedPosts') || '[]'); }
+        function toggleSave(btn, post) {
+            let saved = getSavedPosts(); const index = saved.findIndex(p => p.url === post.url);
+            if (index === -1) { saved.push(post); btn.classList.remove('far'); btn.classList.add('fas', 'saved'); } 
+            else { saved.splice(index, 1); btn.classList.remove('fas', 'saved'); btn.classList.add('far'); }
+            localStorage.setItem('savedPosts', JSON.stringify(saved));
+            if(document.getElementById('saved-view').classList.contains('active')) loadSavedPosts();
+        }
+        function loadSavedPosts() {
+            const container = document.getElementById('saved-list-container'); const saved = getSavedPosts(); const noMsg = document.getElementById('no-saved-msg'); container.innerHTML = "";
+            if (saved.length === 0) { noMsg.style.display = "block"; } else {
+                noMsg.style.display = "none";
+                saved.forEach(post => {
+                    const postData = JSON.stringify(post).replace(/'/g, "'");
+                    container.innerHTML += `<div class="post-card"><img src="${post.img}"><div class="post-content"><a href="${post.url}"><div class="post-title">${post.title}</div></a><div class="post-footer"><a href="${post.url}" class="btn-read">پڑھیں</a><div class="action-tray"><i class="fas fa-trash-alt" style="color:#e74c3c; background:rgba(231,76,60,0.1);" onclick='toggleSave(this, ${postData})'></i></div></div></div></div>`;
+                });
+            }
+        }
+
+        function sharePost(url, title) { if (navigator.share) { navigator.share({ title: title, url: url }).catch(e => console.log(e)); } else { window.open(`https://wa.me/?text=${encodeURIComponent(title + " " + url)}`, '_blank'); } }
+        function shareApp() { const msg = "مدنی دنیا کی شاندار ایپ ڈاؤنلوڈ کریں: https://www.madaniduniya.com"; if (navigator.share) { navigator.share({ title: 'مدنی دنیا', text: msg }).catch(e => console.log(e)); } }
+        
+        function switchTab(tab) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if(tab === 'home') { document.getElementById('home-view').classList.add('active'); document.getElementById('btn-home').classList.add('active'); }
+            else if(tab === 'saved') { document.getElementById('saved-view').classList.add('active'); document.getElementById('btn-saved').classList.add('active'); loadSavedPosts(); }
+            else if(tab === 'store') { document.getElementById('store-list-view').classList.add('active'); document.getElementById('btn-store').classList.add('active'); fetchApps(); }
+            else if(tab === 'store-details') { document.getElementById('store-details-view').classList.add('active'); }
+        }
+
+        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('darkMode', document.body.classList.contains('dark-mode')); }
+        if (localStorage.getItem('darkMode') === 'true') { document.body.classList.add('dark-mode'); }
+
+        // Init
+        loadConfig(); fetchNextBatch(); fetchNotificationPosts();
+
+    </script>
+</body>
+</html>
