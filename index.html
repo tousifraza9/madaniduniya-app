@@ -46,14 +46,15 @@
 
         .app-container { width: 100%; max-width: 480px; background-color: var(--bg-color); min-height: 100vh; position: relative; overflow-x: hidden; }
 
-        /* Header */
-        .header { background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 0; right: 0; margin: 0 auto; max-width: 480px; width: 100%; z-index: 2000; border-bottom: 1px solid var(--border-light); }
+        /* 🌟 UPDATED: Header padding for Edge-to-Edge display */
+        .header { background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 40px 20px 15px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 0; right: 0; margin: 0 auto; max-width: 480px; width: 100%; z-index: 2000; border-bottom: 1px solid var(--border-light); }
         .header-logo { max-height: 38px; object-fit: contain; }
         body.dark-mode .header-logo { filter: brightness(0) invert(1); } 
         .icon-btn { font-size: 1.4rem; background: var(--surface-color); width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-main); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); transition: 0.2s; position: relative; }
         .icon-btn:active { transform: scale(0.9); }
         
-        .top-section { padding: 85px 20px 10px; }
+        /* 🌟 UPDATED: Top Section padding shifted down */
+        .top-section { padding: 115px 20px 10px; }
         .greeting-title { font-size: 1.6rem; font-weight: bold; margin: 0; line-height: 1.2; }
         .greeting-sub { font-size: 1rem; color: var(--text-muted); margin-top: 4px; }
 
@@ -103,7 +104,8 @@
         .btn-load { background: var(--surface-color); color: var(--text-main); border: 1px solid var(--border-light); padding: 12px 35px; border-radius: 30px; cursor: pointer; font-family: 'Jameel Noori'; font-size: 1.1rem; font-weight: bold; box-shadow: var(--shadow-sm); }
 
         /* Store */
-        .store-header { padding: 25px 20px 10px; background: var(--surface-color); box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 15px; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;}
+        /* 🌟 UPDATED: Store header padding */
+        .store-header { padding: 45px 20px 10px; background: var(--surface-color); box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 15px; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;}
         .back-circle { width: 40px; height: 40px; background: var(--bg-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-main); }
         .app-item-modern { display: flex; align-items: center; padding: 15px; background: var(--surface-color); margin: 15px 20px; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); cursor: pointer; }
         .app-item-icon { width: 65px; height: 65px; border-radius: 16px; object-fit: cover; margin-left: 15px; }
@@ -138,7 +140,8 @@
         .sidebar-overlay.active { display: block; opacity: 1; }
         .sidebar { position: fixed; top: 0; right: -320px; width: 280px; height: 100%; background: var(--surface-color); z-index: 4001; transition: right 0.3s; box-shadow: -10px 0 30px rgba(0,0,0,0.1); border-top-left-radius: 30px; border-bottom-left-radius: 30px; overflow: hidden; display:flex; flex-direction: column;}
         .sidebar.active { right: 0; }
-        .sidebar-header { padding: 40px 20px 20px; background: var(--primary-light); text-align: center; }
+        /* 🌟 UPDATED: Sidebar and Notification headers padding */
+        .sidebar-header { padding: 50px 20px 20px; background: var(--primary-light); text-align: center; }
         .sidebar-menu { list-style: none; padding: 15px 0; overflow-y: auto; flex:1;}
         .sidebar-menu li a { display: flex; align-items: center; padding: 15px 25px; color: var(--text-main); font-size: 1.05rem; font-weight: bold; }
         .sidebar-menu li a i { width: 35px; color: var(--primary); font-size: 1.2rem; }
@@ -151,7 +154,8 @@
         /* --- 🌟 NEW: Notification Panel Styles 🌟 --- */
         .notification-panel { position: fixed; top: 0; left: -320px; width: 280px; height: 100%; background: var(--surface-color); z-index: 4001; transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 10px 0 30px rgba(0,0,0,0.1); border-top-right-radius: 30px; border-bottom-right-radius: 30px; display:flex; flex-direction: column; overflow: hidden;}
         .notification-panel.active { left: 0; }
-        .notification-header { padding: 35px 20px 20px; background: var(--primary-light); color: var(--primary); display: flex; justify-content: space-between; align-items: center; }
+        /* 🌟 UPDATED: Notification header padding */
+        .notification-header { padding: 50px 20px 20px; background: var(--primary-light); color: var(--primary); display: flex; justify-content: space-between; align-items: center; }
         .notification-body { padding: 15px 20px; overflow-y: auto; flex:1; }
         .notif-item { background: var(--bg-color); padding: 15px; border-radius: var(--radius-md); margin-bottom: 12px; border: 1px solid var(--border-light); }
         .notif-title { font-size: 1rem; font-weight: bold; color: var(--text-main); margin-bottom: 5px; line-height: 1.4; }
@@ -167,14 +171,12 @@
         <div class="header">
             <button class="icon-btn" onclick="toggleSidebar()"><i class="fas fa-bars-staggered"></i></button>
             <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEitCLc_RkBdn0RWkml4bfqFrAZe7c3jdYRfjdJuDbFS5qqTw0V_ZKGxO_9mQTNnclpP_ngT9cN1XAXKnYttEquf0QKTnanvK7ggCa3QNMgh7WvhU25lcpeSLIaj7kCzsxmVPfZ5kNeX2KkfcVJlgxSH5CNbX9aZBZ_CzawHxKBON-i4KViMbmPs4C7bM26Y/s1024/288946.webp" class="header-logo" alt="Madani Duniya">
-            <!-- 🌟 گھنٹی کا نیا بٹن -->
             <button class="icon-btn" onclick="toggleNotifications()">
                 <i class="far fa-bell"></i>
                 <span class="notif-badge" id="notif-count" style="display:none;"></span>
             </button>
         </div>
 
-        <!-- دائیں طرف والا مینیو (Sidebar) -->
         <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
         <div class="sidebar" id="sidebarMenu">
             <div class="sidebar-header">
@@ -191,7 +193,6 @@
             </ul>
         </div>
 
-        <!-- 🌟 بائیں طرف والا نوٹیفکیشن پینل -->
         <div class="sidebar-overlay" id="notificationOverlay" onclick="toggleNotifications()"></div>
         <div class="notification-panel" id="notificationPanel">
             <div class="notification-header">
@@ -199,7 +200,6 @@
                 <i class="fas fa-times" style="cursor:pointer; font-size: 1.2rem; color: var(--text-muted);" onclick="toggleNotifications()"></i>
             </div>
             <div class="notification-body">
-                <!-- کسٹم نوٹیفکیشنز یہاں آئیں گے -->
                 <div id="custom-notifications-container"></div>
                 
                 <h4 style="margin: 15px 0 10px; font-size: 1rem; color: var(--text-muted);">تازہ ترین مضامین</h4>
@@ -236,7 +236,6 @@
             <div class="load-more-container"><button id="loadMoreBtn" class="btn-load" onclick="fetchNextBatch()" style="display:none;">مزید لوڈ کریں <i class="fas fa-angle-down"></i></button></div>
         </div>
 
-        <!-- Store & Saved Views -->
         <div id="store-list-view" class="view-section">
             <div class="store-header"><div onclick="switchTab('home')" class="back-circle"><i class="fas fa-arrow-right"></i></div><h3 style="margin:0; font-size: 1.3rem;">ایپس اسٹور</h3></div>
             <div id="apps-container" style="padding-top: 10px;"><div style="text-align:center; padding:50px; color:var(--text-muted);"><i class="fas fa-spinner fa-spin fa-2x"></i><br><br>ایپس لوڈ ہو رہی ہیں...</div></div>
@@ -260,7 +259,6 @@
             <div id="no-saved-msg" style="text-align:center; padding:60px 20px; color:var(--text-muted); display:none;"><i class="far fa-bookmark" style="font-size: 4rem; opacity: 0.5; margin-bottom: 20px;"></i><p style="font-size: 1.1rem; font-weight: bold;">کوئی مضمون محفوظ نہیں</p></div>
         </div>
 
-        <!-- Floating Bottom Nav -->
         <div class="bottom-nav-floating">
             <button onclick="switchTab('home')" class="nav-item active" id="btn-home"><i class="fas fa-house"></i> <span>ہوم</span></button>
             <button onclick="window.location.href='https://www.madaniduniya.com/search'" class="nav-item"><i class="fas fa-magnifying-glass"></i> <span>تلاش</span></button>
@@ -291,12 +289,11 @@
             sidebar.classList.toggle('active'); overlay.classList.toggle('active');
         }
 
-        // 🌟 Notification Functions 🌟
         function toggleNotifications() {
             const panel = document.getElementById('notificationPanel');
             const overlay = document.getElementById('notificationOverlay');
             panel.classList.toggle('active'); overlay.classList.toggle('active');
-            document.getElementById('notif-count').style.display = 'none'; // بیج ہٹا دیں
+            document.getElementById('notif-count').style.display = 'none'; 
         }
 
         function fetchNotificationPosts() {
@@ -330,11 +327,10 @@
                 if(!response.ok) return;
                 const data = await response.json();
 
-                // 🌟 کسٹم نوٹیفکیشن سسٹم 🌟
                 if(data.customNotifications && data.customNotifications.length > 0) {
                     const notifContainer = document.getElementById('custom-notifications-container');
                     notifContainer.innerHTML = "";
-                    document.getElementById('notif-count').style.display = 'block'; // بیج دکھائیں
+                    document.getElementById('notif-count').style.display = 'block'; 
                     
                     data.customNotifications.forEach(notif => {
                         notifContainer.innerHTML += `
@@ -385,7 +381,6 @@
             } catch (e) { console.log("Config Error:", e); }
         }
 
-        // App Store
         let allAppsData = [];
         async function fetchApps() {
             const container = document.getElementById('apps-container');
@@ -408,7 +403,6 @@
             switchTab('store-details'); 
         }
 
-        // Posts Fetching
         let currentIndex = 1;
         function fetchNextBatch() {
             document.getElementById('loadMoreBtn').innerHTML = "لوڈ ہو رہا ہے... <i class='fas fa-spinner fa-spin'></i>";
@@ -431,7 +425,6 @@
             } else { document.getElementById('loadMoreBtn').style.display = 'none'; }
         }
 
-        // Save System
         function getSavedPosts() { return JSON.parse(localStorage.getItem('savedPosts') || '[]'); }
         function toggleSave(btn, post) {
             let saved = getSavedPosts(); const index = saved.findIndex(p => p.url === post.url);
@@ -467,7 +460,6 @@
         function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('darkMode', document.body.classList.contains('dark-mode')); }
         if (localStorage.getItem('darkMode') === 'true') { document.body.classList.add('dark-mode'); }
 
-        // Init
         loadConfig(); fetchNextBatch(); fetchNotificationPosts();
 
     </script>
