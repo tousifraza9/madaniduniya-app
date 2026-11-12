@@ -1,0 +1,11 @@
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: *
+Allow: /
+
+Sitemap: https://app.madaniduniya.com/sitemap.xml
+Sitemap: https://app.madaniduniya.com/sitemap-pages.xml
